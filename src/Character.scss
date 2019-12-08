@@ -1,0 +1,41 @@
+.Character {
+  width: 46px;
+  min-width: 46px;
+  min-height: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: .25rem;
+  border: 2px solid #feed35;
+  box-shadow: inset 0 -6px 12px 0 rgba(0,0,0,0.5);
+
+  &.light {
+    background: #f6ce3f;
+  }
+
+  &.fire {
+    background: red;
+  }
+
+  &.water {
+    background: blue;
+  }
+
+  &.earth {
+    background: green;
+  }
+
+  &.shadow {
+    background: gray;
+  }
+
+  &.empty {
+    border-color: #d86b36;
+    background: #6a2c15;
+    color: #9b512e;
+    font-size: 24px;
+  }
+}
