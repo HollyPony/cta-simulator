@@ -1,6 +1,7 @@
 export default {
   'Team.title': `Équipe`,
   'Team.result': `Résultat`,
+  'Team.result.atk': `Attaque : {value}`,
   'Characters.title': `Héros`,
   'Characters.configure': `Configurer`,
   'Characters.cancel': `Annuler`,

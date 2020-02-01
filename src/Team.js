@@ -40,8 +40,9 @@ class Team extends React.Component {
 
       <CardHeader><FormattedMessage id="Team.result" /></CardHeader>
       <CardBody>
-        <p>Att: xxx</p>
-        <p>Def: xxx</p>
+        <p><FormattedMessage id="Team.result.atk" values={{
+          value: Object.values(team).reduce((acc, info) => acc + info.stats.atk, 0)
+        }} /></p>
       </CardBody>
     </Card>
   }

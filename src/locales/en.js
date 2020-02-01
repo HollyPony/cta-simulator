@@ -1,6 +1,7 @@
 export default {
   'Team.title': `Team`,
   'Team.result': `Result`,
+  'Team.result.atk': `Attack: {value}`,
   'Characters.title': `Heros`,
   'Characters.configure': `Configure`,
   'Characters.cancel': `Cancel`,
