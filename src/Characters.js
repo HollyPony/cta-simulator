@@ -12,12 +12,12 @@ import './Characters.scss'
 
 class Characters extends React.Component {
   state = {
-    accordionOpen: undefined,
+    editingHero: undefined,
   }
 
   toggleAccordion(accordion) {
     this.setState(state => ({
-      accordionOpen: state.accordionOpen !== accordion && accordion
+      editingHero: state.editingHero !== accordion && accordion
     }))
   }
 
@@ -31,7 +31,7 @@ class Characters extends React.Component {
 
   render() {
     const { selectedTeam, } = this.props
-    const { accordionOpen, } = this.state
+    const { editingHero, } = this.state
 
     return <Card tag="section" className="Characters">
       <CardHeader tag="h4"><FormattedMessage id="Characters.title" /></CardHeader>
@@ -52,10 +52,10 @@ class Characters extends React.Component {
           <Button
             className="ml-auto"
             color="info">
-            <FormattedMessage id={`Characters.${accordionOpen === name ? 'cancel' : 'configure'}`} />
+            <FormattedMessage id={`Characters.${editingHero === name ? 'cancel' : 'configure'}`} />
           </Button>
         </CardHeader>
-        <CardBody tag={Collapse} isOpen={accordionOpen === name}>
+        <CardBody tag={Collapse} isOpen={editingHero === name}>
           <pre>{JSON.stringify(infos, null, 2)}</pre>
           {infos.stats && <div>
             <p><FormattedMessage id="Characters.atk" />{infos.stats.atk}</p>
