@@ -1,4 +1,28 @@
 .Characters {
+  .star {
+    position: relative;
+    font-size: 22px;
+    width: 23px;
+    height: 33px;
+
+    &:after {
+      content: '\02606';
+      color: black;
+      position: absolute;
+    }
+
+    &.normal,
+    &.awake {
+      &:before {
+        content: '\02605';
+        position: absolute;
+      }
+    }
+
+    &.normal { color: yellow; } // TODO: Find true color
+    &.awake { color: violet; } // TODO: Find true color
+  }
+
   .character-picture {
     display: flex;
     justify-content: center;

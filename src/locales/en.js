@@ -4,7 +4,7 @@ export default {
   'Team.result.atk': `Attack: {value}`,
   'Characters.title': `Heros`,
   'Characters.configure': `Configure`,
-  'Characters.cancel': `Cancel`,
+  'Characters.close': `Close`,
   'Characters.atk': `Attack: `,
   'Characters.add': `Add`,
 
