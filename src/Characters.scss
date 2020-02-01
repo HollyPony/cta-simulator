@@ -1,0 +1,61 @@
+.Characters {
+  .character-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    border-radius: .25rem;
+    border: 2px solid #feed35;
+    border-color: #d86b36;
+
+    width: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    height: 46px;
+    padding: 0;
+    margin: 0;
+    box-shadow: inset 0 -6px 12px 0 rgba(0, 0, 0, 0.4);
+
+    &.LIGHT {
+      background: gold;
+      background: linear-gradient(#FDf9E9, #D5C941);
+    }
+    &.FIRE { 
+      background: red;
+      background: linear-gradient(#E71806, #720b01);
+    }
+    &.WATER {
+      background: blue;
+      background: linear-gradient(#16B0EB, #08436D);
+    }
+    &.EARTH {
+      background: green;
+      background: linear-gradient(#BFEE07, #416701);
+    }
+    &.DARK {
+      background: gray;
+      background: linear-gradient(#A400EB, #430075);
+    }
+
+    > img {
+      max-width: 34px;
+      max-height: 34px;
+    }
+
+    > span.hero-name {
+      position: absolute;
+
+      color: white;
+      font-size: .7em;
+      font-weight: 400;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+      transform: translateY(50%);
+      white-space: normal;
+      text-align: center;
+
+      bottom: 0;
+    }
+  }
+}

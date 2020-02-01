@@ -1,86 +1,78 @@
-import React, { useState, } from 'react'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
-  Table,
   Button,
   Card, CardHeader, CardBody,
-
-  ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Collapse,
 } from 'reactstrap'
 
-import { TYPES } from './characters.service'
+import { CHARACTERS, getRarityName, getTypeName, getJobName } from './Consts'
 
-const TRType = ({ type }) => <>{!type ? 'empty'
-  : type & TYPES.LIGHT ? 'light'
-    : type & TYPES.EARTH ? 'earth'
-      : type & TYPES.SHADOW ? 'shadow'
-        : type & TYPES.FIRE ? 'fire'
-          : type & TYPES.WATER ? 'water'
-            : 'undefined'}</>
+import './Characters.scss'
 
-const Characters = ({ characters, onCharacterSelect = () => { } }) => {
-  const [typeOpen, toggleType] = useState(false)
+class Characters extends React.Component {
+  state = {
+    accordionOpen: undefined,
+  }
 
-  return <Card tag="section">
-    <CardHeader tag="h4">Personnages</CardHeader>
-    <CardBody className="p-0">
-      <Table striped borderless hover responsive>
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col">
-              <ButtonDropdown isOpen={typeOpen} toggle={() => toggleType(!typeOpen)}>
-                <DropdownToggle caret>
-                  filtre types
-                </DropdownToggle>
-                <DropdownMenu>
-                  {/* <DropdownItem header>Header</DropdownItem> */}
-                  {/* <DropdownItem disabled>Action</DropdownItem> */}
-                  {/* <DropdownItem>Another Action</DropdownItem> */}
-                  {/* <DropdownItem divider /> */}
-                  <DropdownItem>eau</DropdownItem>
-                  <DropdownItem>terre</DropdownItem>
-                  <DropdownItem>feu</DropdownItem>
-                  <DropdownItem>lumiere</DropdownItem>
-                  <DropdownItem>tenebre</DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-            </th>
-            <th scope="col">
-              <ButtonDropdown isOpen={typeOpen} toggle={() => toggleType(!typeOpen)}>
-                <DropdownToggle caret>
-                  filtre metier
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>bagarreur</DropdownItem>
-                  <DropdownItem>barbare</DropdownItem>
-                  <DropdownItem>chevalier</DropdownItem>
-                  <DropdownItem>voleur</DropdownItem>
-                  <DropdownItem>lancier</DropdownItem>
-                  <DropdownItem>samurai</DropdownItem>
-                  <DropdownItem>archer</DropdownItem>
-                  <DropdownItem>margicien</DropdownItem>
-                  <DropdownItem>tireur</DropdownItem>
-                  <DropdownItem>support</DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {characters.map(character => <tr key={character.id}>
-            <td><Button
-              type="button"
-              color="primary"
-              onClick={() => onCharacterSelect(character)}>Ajouter</Button></td>
-            <th scope="row" className="align-middle text-nowrap">{character.name}</th>
-            <td className="align-middle"><TRType type={character.type} /></td>
-            <td className="align-middle"><TRType type={character.type} /></td>
-          </tr>)}
-        </tbody>
-      </Table>
-    </CardBody>
-  </Card>
+  toggleAccordion(accordion) {
+    this.setState(state => ({
+      accordionOpen: state.accordionOpen !== accordion && accordion
+    }))
+  }
+
+  addHero(name, info) {
+    const { onCharacterSelect, } = this.props
+
+    onCharacterSelect(name, info)
+
+    this.toggleAccordion()
+  }
+
+  render() {
+    const { selectedTeam, } = this.props
+    const { accordionOpen, } = this.state
+
+    return <Card tag="section" className="Characters">
+      <CardHeader tag="h4"><FormattedMessage id="Characters.title" /></CardHeader>
+
+      {Object.entries(CHARACTERS).map(([name, infos]) => <React.Fragment key={name}>
+        <CardHeader
+          className="d-flex align-items-center"
+          onClick={() => this.toggleAccordion(name)}>
+          <div className={`mr-2 character-picture ${getTypeName(infos)}`}>
+            <img src={`/assets/characters/${name}.png`} alt={'add'} />
+          </div>
+          <span className="mr-2">
+            <FormattedMessage id={`hero.${name}`} />
+          </span>
+          <div>
+            <span className="align-middle">{getRarityName(infos)}</span>
+          </div>
+          <Button
+            className="ml-auto"
+            color="info">
+            <FormattedMessage id={`Characters.${accordionOpen === name ? 'cancel' : 'configure'}`} />
+          </Button>
+        </CardHeader>
+        <CardBody tag={Collapse} isOpen={accordionOpen === name}>
+          <pre>{JSON.stringify(infos, null, 2)}</pre>
+          {infos.stats && <div>
+            <p><FormattedMessage id="Characters.atk" />{infos.stats.atk}</p>
+          </div>}
+          <p>{getTypeName(infos)}</p>
+          <p>{getJobName(infos)}</p>
+          <Button
+            type="button"
+            color="primary"
+            disabled={Boolean(selectedTeam[name]) || Object.keys(selectedTeam).length >= 10}
+            onClick={() => this.addHero(name, infos)}>
+            <FormattedMessage id="Characters.add" />
+          </Button>
+        </CardBody>
+      </React.Fragment>)}
+    </Card>
+  }
 }
 
 export default Characters
