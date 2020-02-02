@@ -10,22 +10,6 @@ import {
 class Navbar extends React.Component {
   state = {
     isOpen: false,
-    selectedTeam: {},
-  }
-
-  onCharacterSelect = (name, infos) => {
-    const { selectedTeam } = this.state
-    if (selectedTeam[name]) {
-      return
-    }
-
-    this.setState(state => ({
-      selectedTeam: { ...state.selectedTeam, [name]: { ...infos } }
-    }))
-  }
-
-  clearSelectedTeam = () => {
-    this.setState({ selectedTeam: {} })
   }
 
   toggle = () => this.setState(state => ({ isOpen: !state.isOpen }))
