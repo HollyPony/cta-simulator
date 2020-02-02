@@ -107,7 +107,6 @@ class Characters extends React.Component {
 
   filterHeros = ([name, hero]) => {
     const { _filter: filter } = this.state
-    console.log(!filter.job, filter.job & hero.job, !filter.type, filter.type & hero.type)
     return (!filter.job || filter.job & hero.job)
       && (!filter.type || filter.type & hero.type)
       && (!filter.rarity || filter.rarity === hero.rarity)
@@ -135,7 +134,6 @@ class Characters extends React.Component {
       </CardHeader>
 
       {/* RARITY FILER */}
-      {JSON.stringify(_filter)}
       <CardHeader>
         <FormGroup check inline>
           <Label check>
