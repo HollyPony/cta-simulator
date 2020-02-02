@@ -18,9 +18,9 @@ class Layout extends React.Component {
       return
     }
 
-    this.setState(state => ({
+    return new Promise(resolve => this.setState(state => ({
       selectedTeam: { ...state.selectedTeam, [name]: { ...infos } }
-    }))
+    }), resolve))
   }
 
   clearSelectedTeam = () => this.setState({ selectedTeam: {} })
