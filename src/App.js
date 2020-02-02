@@ -17,6 +17,7 @@ class App extends React.Component {
     return <IntlProvider locale={locale} messages={locales[locale]}>
       <div className="App pb-4">
         <Header />
+        {/* TODO: put publicUrl in static way */}
         <Layout publicUrl={this.props.publicUrl || ''} />
       </div>
     </IntlProvider>
