@@ -3,6 +3,7 @@ import {
   Container,
 } from 'reactstrap'
 
+// import Navbar from './Navbar'
 import Team from './Team'
 import Characters from './Characters'
 
@@ -28,12 +29,15 @@ class Layout extends React.Component {
     const { selectedTeam, } = this.state
 
     return <Container tag="main">
+      {/* <Navbar /> */}
       <Team
+        // className="mb-4"
         className="mb-4 mt-4"
         team={selectedTeam}
         clear={this.clearSelectedTeam} />
 
       <Characters
+        publicUrl={this.props.publicUrl}
         selectedTeam={selectedTeam}
         onCharacterSelect={this.onCharacterSelect} />
     </Container>

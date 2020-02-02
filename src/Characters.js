@@ -157,7 +157,7 @@ class Characters extends React.Component {
             className="d-flex align-items-center"
             onClick={() => this.toggleAccordion(name, infos)}>
             <div className={`mr-2 character-picture ${getTypeName(infos)}`}>
-              <img src={`/assets/characters/${name}.png`} alt={'add'} />
+              <img src={`${this.props.publicUrl}/assets/characters/${name}.png`} alt={'add'} />
             </div>
             <span className="mr-2">
               <FormattedMessage id={`hero.${name}`} />
