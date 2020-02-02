@@ -12,8 +12,11 @@ const StatDetail = ({ name, hero, multiplyWithStars, ...props }) => {
 }
 
 export default class Stats extends React.Component {
+  state = {}
+
   render() {
     const { hero } = this.props
+    const { moreStats } = this.state
 
     return <div className="stats">
       <StatDetail hero={hero} name="atk" multiplyWithStars={true} />
@@ -24,24 +27,29 @@ export default class Stats extends React.Component {
       <StatDetail hero={hero} name="aps" />
       <StatDetail hero={hero} name="atkRange" />
       <StatDetail hero={hero} name="moveSpeed" />
-      <StatDetail hero={hero} name="frenzy" />
       <StatDetail hero={hero} name="effectResistance" />
-      <StatDetail hero={hero} name="dodge" />
-      <StatDetail hero={hero} name="stunChance" />
-      <StatDetail hero={hero} name="stunTime" />
-      <StatDetail hero={hero} name="atkAoe" />
-      <StatDetail hero={hero} name="ultimateAtk" />
-      <StatDetail hero={hero} name="knightShield" />
-      <StatDetail hero={hero} name="bonusGold" />
-      <StatDetail hero={hero} name="freezeChance" />
-      <StatDetail hero={hero} name="freezeTime" />
-      <StatDetail hero={hero} name="freezeExplosionDmg" />
-      <StatDetail hero={hero} name="burnChance" />
-      <StatDetail hero={hero} name="burnTime" />
-      <StatDetail hero={hero} name="burnDmg" />
-      <StatDetail hero={hero} name="poisonChance" />
-      <StatDetail hero={hero} name="poisonTime" />
-      <StatDetail hero={hero} name="poisonDmg" />
+
+      {/* TODO: display it as demand */}
+      {moreStats && <>
+        <StatDetail hero={hero} name="frenzy" />
+        <StatDetail hero={hero} name="dodge" />
+        <StatDetail hero={hero} name="stunChance" />
+        <StatDetail hero={hero} name="stunTime" />
+        <StatDetail hero={hero} name="atkAoe" />
+        <StatDetail hero={hero} name="ultimateAtk" />
+        <StatDetail hero={hero} name="knightShield" />
+        <StatDetail hero={hero} name="bonusGold" />
+
+        <StatDetail hero={hero} name="freezeChance" />
+        <StatDetail hero={hero} name="freezeTime" />
+        <StatDetail hero={hero} name="freezeExplosionDmg" />
+        <StatDetail hero={hero} name="burnChance" />
+        <StatDetail hero={hero} name="burnTime" />
+        <StatDetail hero={hero} name="burnDmg" />
+        <StatDetail hero={hero} name="poisonChance" />
+        <StatDetail hero={hero} name="poisonTime" />
+        <StatDetail hero={hero} name="poisonDmg" />
+      </>}
     </div>
   }
 }
