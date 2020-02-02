@@ -159,11 +159,17 @@ class Characters extends React.Component {
             <div className={`mr-2 character-picture ${getTypeName(infos)}`}>
               <img src={`${this.props.publicUrl}/assets/characters/${name}.png`} alt={'add'} />
             </div>
-            <span className="mr-2">
-              <FormattedMessage id={`hero.${name}`} />
-            </span>
             <div>
-              <span className="align-middle">{getRarityName(infos)}</span>
+              <div>
+                <span className="mr-2 font-weight-bold">
+                  <FormattedMessage id={`hero.${name}`} />
+                </span>
+                <span className="mr-2">{getRarityName(infos)}</span>
+              </div>
+              <div>
+                <span className="mr-2 font-italic">{getTypeName(infos)}</span>
+                <span className="mr-2 font-italic">{getJobName(infos)}</span>
+              </div>
             </div>
             <Button
               className="ml-auto"
@@ -186,8 +192,6 @@ class Characters extends React.Component {
 
               <Stats hero={this.state[name]} />
 
-              <p>{getTypeName(infos)}</p>
-              <p>{getJobName(infos)}</p>
               <Button
                 type="button"
                 color="primary"
