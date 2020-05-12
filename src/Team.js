@@ -15,20 +15,20 @@ const TeamMate = ({ name, infos, className, }) => <div key={name}
 </div>
 
 
-class Team extends React.Component {
-  render() {
-    const { team, className } = this.props
-
-    return <Card tag="section" className={[className].join(' ')}>
+const Team = ({ team = {}, className, clear }) => {
+  // console.log(team, className)
+  return (
+    <Card tag="section" className={[className].join(' ')}>
       <CardHeader tag="h4" className="d-flex align-items-center">
         <FormattedMessage id="Team.title" />
 
         <Button type="button"
           className="ml-auto border-top-right-0"
-          onClick={this.props.clear}>Clear</Button>
+          onClick={clear}>Clear</Button>
       </CardHeader>
       <CardBody>
         <div className="Team">
+          {/* TODO: in style : align to left */}
           {Object.entries(team).map(([name, infos]) =>
             <TeamMate key={name} name={name} infos={infos} className="w-25 px-1" />)}
 
@@ -45,7 +45,7 @@ class Team extends React.Component {
         }} /></p>
       </CardBody>
     </Card>
-  }
+  )
 }
 
 

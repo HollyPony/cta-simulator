@@ -1,30 +1,26 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
-  Nav,/* NavItem, NavLink,*/
+  Nav, NavItem, NavLink,
   Navbar as RSNavbar/*, NavbarText, NavbarBrand*/, NavbarToggler,
   UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
   Collapse,
 } from 'reactstrap'
 
-class Navbar extends React.Component {
-  state = {
-    isOpen: false,
-  }
+const NavbarI = () => {
+  const [isOpen, setIsOpen] = React.useState(false)
 
-  toggle = () => this.setState(state => ({ isOpen: !state.isOpen }))
-
-  render() {
-    const { isOpen, } = this.state
-
-    return <RSNavbar color="" light expand="xs">
-      <NavbarToggler onClick={this.toggle} />
+  return (
+    <RSNavbar color="" light expand="xs">
+      <NavbarToggler onClick={() => setIsOpen(true)} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto" navbar>
+          <NavItem>
+            <NavLink href="/components/">Components</NavLink>
+          </NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
-              <FormattedMessage id="option.test"
-                defaultMessage="option.test" />
+              <FormattedMessage id="Navbar.page1.test" />
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
@@ -42,7 +38,7 @@ class Navbar extends React.Component {
         </Nav>
       </Collapse>
     </RSNavbar>
-  }
+  )
 }
 
-export default Navbar
+export default NavbarI

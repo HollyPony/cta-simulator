@@ -1,4 +1,43 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
 .Characters {
+  > .filters {
+    &.types {
+      > .type {
+        border: 0;
+        border-bottom: 6px solid rgba(0,0,0,0.5);
+        transition: .2s;
+
+        &.LIGHT {
+          background: rgb(211, 179, 0);
+        }
+        &.FIRE { 
+          background: rgb(201, 0, 0);
+        }
+        &.WATER {
+          background: rgb(0, 0, 230);
+        }
+        &.EARTH {
+          background: rgb(0, 139, 0);
+        }
+        &.DARK {
+          background: rgb(105, 105, 105);
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+
+        &.active {
+          margin-top: 4px;
+          border-bottom-width: 2px;
+        }
+      }
+    }
+  }
+
   .star {
     position: relative;
     font-size: 22px;
@@ -30,8 +69,7 @@
     position: relative;
 
     border-radius: .25rem;
-    border: 2px solid #feed35;
-    border-color: #d86b36;
+    border: 2px solid #d86b36;
 
     width: 46px;
     min-width: 46px;

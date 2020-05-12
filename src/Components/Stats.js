@@ -11,14 +11,11 @@ const StatDetail = ({ name, hero, multiplyWithStars, ...props }) => {
   </p>
 }
 
-export default class Stats extends React.Component {
-  state = {}
+const Stats = ({ hero }) => {
+  const [moreStats, setMoreState] = React.useState(false)
 
-  render() {
-    const { hero } = this.props
-    const { moreStats } = this.state
-
-    return <div className="stats">
+  return (
+    <div className="stats">
       <StatDetail hero={hero} name="atk" multiplyWithStars={true} />
       <StatDetail hero={hero} name="hp" multiplyWithStars={true} />
       <StatDetail hero={hero} name="def" multiplyWithStars={true} />
@@ -51,5 +48,7 @@ export default class Stats extends React.Component {
         <StatDetail hero={hero} name="poisonDmg" />
       </>}
     </div>
-  }
+  )
 }
+
+export default Stats

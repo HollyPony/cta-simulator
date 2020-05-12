@@ -2,162 +2,145 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   Button,
-  Card, CardHeader, CardBody,
-
+  Card, CardHeader,
   FormGroup, Input, Label,
-
-  Collapse,
 } from 'reactstrap'
 
+import { AppContext } from './app.context'
+
+// TODO: Move it in AppContext
 import { CHARACTERS, TYPES, JOBS, RARITIES, getRarityName, getTypeName, getJobName } from './Consts'
 
-import Stats from './Components/Stats'
+import Character from './Components/Character'
 
 import './Characters.scss'
 
+const Img = ({ path, ...props }) => {
+  const appContext = React.useContext(AppContext)
+  // TODO: tr `alt`
+  return <img src={`${appContext.publicUrl}/assets/${path}`} {...props} alt="" />
+}
 
+const FilterButton = ({ active, filter, value, name, onClick = () => { }, className, ...props }) => {
+  const classes = React.useMemo(() => 
+    ['mx-1 filterButton', name].concat([active ? 'active' : undefined]).concat(className).filter(c => c).join(' ')
+  , [active, className, name])
+  return (
+  <Button
+    onClick={() => onClick(filter, value)}
+    className={classes}
+    {...props}
+  >
+    {name}
+  </Button>
+)}
 
-const FilterButton = ({ active, filter, value, name, onClick = () => { }, className, ...props }) =>
-  <Button onClick={() => onClick(filter, value)} className={['filterButton', className, name, active ? 'active' : undefined].join(' ')} {...props}>{name}</Button>
-const TypeFilterButton = ({ className, ...props }) =>
-  <FilterButton filter="type" className={[className, 'type'].join(' ')} {...props} />
-const JobFilterButton = ({ className, ...props }) =>
-  <FilterButton filter="job" className={[className, 'job'].join(' ')} {...props} />
+// TODO: translate
+const TypeFilterButton = ({ className, ...props }) => (
+  <FilterButton
+    filter="type"
+    className={[className, 'type']}
+    {...props} />
+)
 
-class Characters extends React.Component {
-  state = {
-    _filter: {
-      type: 0,
-      job: 0,
-      rarity: 0,
-    }
+// TODO: translate
+const JobFilterButton = ({ className, ...props }) => (
+  <FilterButton
+    filter="job"
+    className={[className, 'job']}
+    {...props} />
+)
+
+const filterReducer = (state, action) => {
+  switch(action.type) {
+    case 'rarity':
+      return { ...state, rarity: action.value }
+    case 'type':
+    case 'job':
+      return { ...state, [action.type]: Boolean(action.value & state[action.type]) ? state[action.type] ^ action.value : state[action.type] | action.value }
+    default:
+      return state
   }
+}
 
-  toggleAccordion(name, infos) {
-    this.setState(state => ({
-      [name]: {
-        ...infos,
-        stars: 1,
-        awakens: 0,
-        open: state[name] ? !state[name].open : true,
-      }
-    }))
+const filterInitialState = () => ({
+  type: 0,
+  job: 0,
+  rarity: 0
+})
+
+const accordionReducer = (state, action) => {
+  const type = action.type === 'toggle' ? state[action.name] ? 'close' : 'open' : action.type
+
+  switch(type) {
+    case 'open': return { ...state, [action.name]: true }
+    case 'close': return { ...state, [action.name]: false }
+    default: return state
   }
+}
 
-  addHero(name, info) {
-    const { onCharacterSelect = { then: () => { } }, } = this.props
+const Characters = ({
+  selectedTeam,
+  onCharacterSelect
+}) => {
+  const [filterState, filterDispatch] = React.useReducer(filterReducer, filterInitialState)
+  const [accordionState, accordionDispatch] = React.useReducer(accordionReducer, {})
 
-    onCharacterSelect(name, info)
-      .then(() => this.setState({ [name]: undefined, }))
-  }
+  const addHero = React.useCallback((name, infos) => {
+    onCharacterSelect(name, infos)
+    accordionDispatch({ type: 'close', name })
+  }, [onCharacterSelect])
 
-  addStar = (name) => this.setState(state => ({
-    [name]: {
-      ...state[name],
-      stars: state[name].stars < 7 ? state[name].stars + 1 : 7,
-    }
-  }))
+  const filterHeros = React.useCallback(([name, hero]) => {
+    return (!filterState.job || filterState.job & hero.job)
+      && (!filterState.type || filterState.type & hero.type)
+      && (!filterState.rarity || filterState.rarity === hero.rarity)
+  }, [filterState.job, filterState.rarity, filterState.type])
 
-  removeStar = (name) => this.setState(state => ({
-    [name]: {
-      ...state[name],
-      stars: state[name].stars > 0 ? state[name].stars - 1 : 0,
-    }
-  }))
-
-  awake = (name) => this.setState(state => ({
-    [name]: {
-      ...state[name],
-      awakens: state[name].awakens < state[name].stars ? state[name].awakens + 1 : state[name].awakens,
-    }
-  }))
-
-  sleep = (name) => this.setState(state => ({
-    [name]: {
-      ...state[name],
-      awakens: state[name].awakens > 0 ? state[name].awakens - 1 : 0,
-    }
-  }))
-
-  mapStar = render =>
-    Array.from({ length: 7 }, (_, id) => id + 1).map(render)
-
-  handleFilter = (type, value) => {
-    return (type === 'rarity')
-      ? this.setState(state => ({
-        _filter: {
-          ...state._filter,
-          rarity: value
-        }
-      }))
-
-      : this.setState(state => {
-        const filter = state._filter[type]
-        const isActive = Boolean(value & filter)
-        return {
-          _filter: {
-            ...state._filter,
-            [type]: isActive ? filter ^ value : filter | value,
-          }
-        }
-      })
-  }
-
-
-
-  filterHeros = ([name, hero]) => {
-    const { _filter: filter } = this.state
-    return (!filter.job || filter.job & hero.job)
-      && (!filter.type || filter.type & hero.type)
-      && (!filter.rarity || filter.rarity === hero.rarity)
-  }
-
-  render() {
-    const { selectedTeam, } = this.props
-    const { _filter } = this.state
-
-    return <Card tag="section" className="Characters">
+  return (
+    <Card tag="section" className="Characters">
       <CardHeader tag="h4"><FormattedMessage id="Characters.title" /></CardHeader>
 
       {/* TYPE FILTER */}
-      <CardHeader>
+      <CardHeader className="filters types d-flex flex-wrap">
         {Object.entries(TYPES).map(([key, value]) =>
-          <TypeFilterButton key={key} name={key} onClick={this.handleFilter} value={value} active={_filter.type & value} />
+          <TypeFilterButton key={key} name={key} onClick={() => filterDispatch({ type: 'type', value })} value={value} active={filterState.type & value} />
         )}
       </CardHeader>
 
       {/* JOB FILTER */}
-      <CardHeader>
+      <CardHeader className="filters jobs d-flex flex-wrap">
         {Object.entries(JOBS).map(([key, value]) =>
-          <JobFilterButton key={key} name={key} onClick={this.handleFilter} value={value} active={_filter.job & value} />
+          <JobFilterButton key={key} name={key} onClick={() => filterDispatch({ type: 'job', value })} value={value} active={filterState.job & value} />
         )}
       </CardHeader>
 
       {/* RARITY FILER */}
-      <CardHeader>
+      <CardHeader className="filters rarities d-flex flex-wrap">
         <FormGroup check inline>
           <Label check>
-            <Input type="radio" name="rarity" checked={_filter.rarity === 0} onChange={() => this.handleFilter('rarity', 0)} />
+            <Input type="radio" name="rarity" checked={filterState.rarity === 0} onChange={() => filterDispatch({ type: 'rarity', value: 0 })} />
             all
             </Label>
         </FormGroup>
         {Object.entries(RARITIES).map(([key, value]) =>
           <FormGroup check inline key={key}>
             <Label check>
-              <Input type="radio" name="rarity" value={_filter['rarity']} onChange={() => this.handleFilter('rarity', value)} />
+              <Input type="radio" name="rarity" value={filterState.rarity} onChange={() => filterDispatch({ type: 'rarity', value })} />
+              {/* TODO: translate */}
               {key}
             </Label>
           </FormGroup>
         )}
       </CardHeader>
 
-      {
-        Object.entries(CHARACTERS).filter(this.filterHeros).map(([name, infos]) => <React.Fragment key={name}>
+      {Object.entries(CHARACTERS).filter(filterHeros).map(([name, infos]) => (
+        <React.Fragment key={name}>
           <CardHeader
             className="d-flex align-items-center"
-            onClick={() => this.toggleAccordion(name, infos)}>
+            onClick={() => accordionDispatch({ type: 'toggle', name })}>
             <div className={`mr-2 character-picture ${getTypeName(infos)}`}>
-              <img src={`${this.props.publicUrl}/assets/characters/${name}.png`} alt={'add'} />
+              <Img path={`characters/${name}.png`} />
             </div>
             <div>
               <div>
@@ -174,37 +157,18 @@ class Characters extends React.Component {
             <Button
               className="ml-auto"
               color="info">
-              <FormattedMessage id={`Characters.${this.state[name] && this.state[name].open ? 'close' : 'configure'}`} />
+              <FormattedMessage id={`Characters.${accordionState[name] ? 'close' : 'configure'}`} />
             </Button>
           </CardHeader>
-          <CardBody tag={Collapse} isOpen={this.state[name] && this.state[name].open}>
-            {this.state[name] && <div>
-              <div className="stars d-flex">
-                {this.mapStar((id) => <span key={id}
-                  className={`star ${(id <= this.state[name].stars)
-                    ? (id <= this.state[name].awakens) ? 'awake' : 'normal'
-                    : ''}`} />)}
-              </div>
-              <button onClick={() => this.removeStar(name)}>remove star</button>
-              <button onClick={() => this.addStar(name)}>add star</button>
-              <button onClick={() => this.awake(name)}>awake</button>
-              <button onClick={() => this.sleep(name)}>sleep</button>
-
-              <Stats hero={this.state[name]} />
-
-              <Button
-                type="button"
-                color="primary"
-                disabled={Boolean(selectedTeam[name]) || Object.keys(selectedTeam).length >= 10}
-                onClick={() => this.addHero(name, infos)}>
-                <FormattedMessage id="Characters.add" />
-              </Button>
-            </div>}
-          </CardBody>
-        </React.Fragment>)
-      }
+          <Character
+            isOpen={accordionState[name]}
+            infos={infos}
+            disabled={selectedTeam && (Boolean(selectedTeam[name]) || Object.keys(selectedTeam).length >= 10)}
+            onSubmit={data => addHero(name, data)} />
+        </React.Fragment>
+      ))}
     </Card >
-  }
+  )
 }
 
 export default Characters
