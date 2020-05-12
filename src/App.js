@@ -12,7 +12,7 @@ import './App.scss'
 // import Header from './Header'
 import Layout from './Layout'
 
-const App = ({publicUrl = ''}) => {
+const App = () => {
   const locale = React.useMemo(() => {
     const navLocale = window.navigator.language.slice(0, 2)
     return locales[navLocale] ? navLocale : 'en'
@@ -20,12 +20,9 @@ const App = ({publicUrl = ''}) => {
 
   return (
     <IntlProvider locale={locale} messages={locales[locale]}>
-      <AppContext.Provider value={{
-        publicUrl
-      }}>
+      <AppContext.Provider value={{}}>
         <Router>
           {/* <div path="/" className="App pb-4"> */}
-            {/* TODO: put publicUrl in static way */}
             <Layout path="/">
             </Layout>
           {/* </div> */}

@@ -3,7 +3,7 @@ import React from 'react'
 import Team from './Team'
 import Characters from './Characters'
 
-const TeamBuilder = ({ publicUrl }) => {
+const TeamBuilder = () => {
   const [selectedTeam, setSelectedTeam] = React.useState()
 
   const onCharacterSelect = React.useCallback((name, infos) => {

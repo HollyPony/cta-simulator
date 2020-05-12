@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 
 const element = document.getElementById('root')
 
-ReactDOM.render(<App {...element.dataset} />, element);
+ReactDOM.render(<App />, element);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

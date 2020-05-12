@@ -6,8 +6,6 @@ import {
   FormGroup, Input, Label,
 } from 'reactstrap'
 
-import { AppContext } from './app.context'
-
 // TODO: Move it in AppContext
 import { CHARACTERS, TYPES, JOBS, RARITIES, getRarityName, getTypeName, getJobName } from './Consts'
 
@@ -16,9 +14,8 @@ import Character from './Components/Character'
 import './Characters.scss'
 
 const Img = ({ path, ...props }) => {
-  const appContext = React.useContext(AppContext)
   // TODO: tr `alt`
-  return <img src={`${appContext.publicUrl}/assets/${path}`} {...props} alt="" />
+  return <img src={`assets/${path}`} {...props} alt="" />
 }
 
 const FilterButton = ({ active, filter, value, name, onClick = () => { }, className, ...props }) => {
