@@ -3,8 +3,8 @@ const ifDefined = (condition, fct) => condition && fct(condition)
 export const RARITIES = {
   COMMON: 1,
   RARE: 2,
-  EPIC: 3,
-  LEGENDARY: 4
+  EPIC: 4,
+  LEGENDARY: 8
 }
 
 export const getRarityName = infos => ifDefined(Object.entries(RARITIES).find(value => value[1] === infos.rarity), res => res[0])
