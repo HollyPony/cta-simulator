@@ -132,4 +132,26 @@ export default {
   'hero.vulcan-hammer': `Vulcan Hammer`,
   'hero.wolfie': `Wolfie`,
   'hero.xak': `Xak`,
+
+  'consts.type.LIGHT': `Light`, // TODO
+  'consts.type.DARK': `Dark`, // TODO
+  'consts.type.FIRE': `Fire`, // TODO
+  'consts.type.WATER': `Water`, // TODO
+  'consts.type.EARTH': `Earth`, // TODO
+
+  'consts.job.BRAWLER': `Brawler`, // TODO
+  'consts.job.BARBARIAN': `Barbarian`, // TODO
+  'consts.job.KNIGHT': `Knight`, // TODO
+  'consts.job.ROGUE': `Rogue`, // TODO
+  'consts.job.LANCER': `Lancer`, // TODO
+  'consts.job.SAMURAI': `Samurai`, // TODO
+  'consts.job.RANGER': `Ranger`, // TODO
+  'consts.job.MAGICIAN': `Magician`, // TODO
+  'consts.job.GUNNER': `Gunner`, // TODO
+  'consts.job.SUPPORT': `Support`, // TODO
+  
+  'consts.rarity.COMMON': `Common`, // TODO
+  'consts.rarity.RARE': `Rare`, // TODO
+  'consts.rarity.EPIC': `Epic`, // TODO
+  'consts.rarity.LEGENDARY': `Legendary`, // TODO
 }

@@ -4,11 +4,24 @@
 
 .Characters {
   > .filters {
+    > .filterButton {
+      border: 0;
+      border-bottom: 6px solid rgba(0,0,0,0.5);
+      transition: .2s;
+
+      &:focus {
+        outline: 0;
+        box-shadow: none;
+      }
+
+      &.active {
+        margin-top: 4px;
+        border-bottom-width: 2px;
+      }
+    }
+
     &.types {
       > .type {
-        border: 0;
-        border-bottom: 6px solid rgba(0,0,0,0.5);
-        transition: .2s;
 
         &.LIGHT {
           background: rgb(211, 179, 0);
@@ -24,15 +37,6 @@
         }
         &.DARK {
           background: rgb(105, 105, 105);
-        }
-
-        &:focus {
-          box-shadow: none;
-        }
-
-        &.active {
-          margin-top: 4px;
-          border-bottom-width: 2px;
         }
       }
     }
