@@ -22,10 +22,7 @@ const App = () => {
     <IntlProvider locale={locale} messages={locales[locale]}>
       <AppContext.Provider value={{}}>
         <Router>
-          {/* <div path="/" className="App pb-4"> */}
-            <Layout path="/">
-            </Layout>
-          {/* </div> */}
+          <Layout path="/" />
         </Router>
       </AppContext.Provider>
     </IntlProvider>
